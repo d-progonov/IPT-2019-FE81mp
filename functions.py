@@ -14,26 +14,21 @@ _TO_SHOW_COMPRESSED_IMAGES = False
 def approximate_hist(data, to_show = True):
     error = {}
 
-    # plot normed histogram
+   
     y, x = np.histogram(data, bins=np.arange(-0.5,256.5))
 
-    # find minimum and maximum of xticks, so we know
-    # where we should compute theoretical distribution
-    #xt = plt.xticks()[0]
-    #xmin, xmax = np.min(xt), np.max(xt)
+
     lnspc = np.linspace(0, 255, 256)
 
     y = y/len(data)
     print("linspace done")
 
-    # lets try the normal distribution first
-    m, s = stats.norm.fit(data)  # get mean and standard deviation
-    pdf_g = stats.norm.pdf(lnspc, m, s)  # now get theoretical values in our interval
+
+    m, s = stats.norm.fit(data)  
+    pdf_g = stats.norm.pdf(lnspc, m, s)  
     print("norm done")
 
-    # error['Norm'] = np.sum(np.power(y - pdf_g, 2.0))
-
-    # exactly same as above
+ 
     ag, bg, cg = stats.gamma.fit(data)
     pdf_gamma = stats.gamma.pdf(lnspc, ag, bg, cg)
     print("gamma done")
@@ -61,9 +56,9 @@ def approximate_hist(data, to_show = True):
         y = y / len(data)
         print("linspace done")
 
-        # lets try the normal distribution first
-        m, s = stats.norm.fit(data)  # get mean and standard deviation
-        pdf_g = stats.norm.pdf(lnspc, m, s)  # now get theoretical values in our interval
+        
+        m, s = stats.norm.fit(data)  
+        pdf_g = stats.norm.pdf(lnspc, m, s)  
         print("norm done")
 
 
@@ -87,9 +82,7 @@ def approximate_hist(data, to_show = True):
         plt.plot(lnspc, pdf_uniform, label="Uniform")
         plt.plot(y, color = "black")
 
-        # error['Uniform'] = np.sum(np.power(y - pdf_uniform, 2.0))
-
-        # print error
+       
 
         plt.show()
     return error
@@ -150,12 +143,6 @@ def gaussian_model(params):
     y = stats.norm.pdf(x, mu, sigma)
     y2 = stats.norm.pdf(lnspc, mu, sigma)
 
-    #y_skew = stats.skewnorm.pdf(lnspc, mu, sigma, skew)
-
-
-
-
-
     plt.plot(lnspc,y2,color = 'blue')
     plt.plot(x,y,color = 'black')
     #plt.plot(lnspc,y_skew,color = 'green')
@@ -165,7 +152,7 @@ def gaussian_model(params):
 def im_PCA(images, height, length):
     components = range(2,202,4)
 
-    # print(images[0])
+
     images = pd.DataFrame(images)
     # print(images)
     MSEs1 = []
